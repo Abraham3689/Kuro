@@ -1,0 +1,4 @@
+upstream/*/node_modules
+upstream/*/.git
+upstream/*/dist
+upstream/*/build
