@@ -13,6 +13,8 @@ Kuro Suite est une plateforme open-source unifiée de services cloud et collabor
 - **Kuro CRM** (Twenty CRM)
 - **Kuro Data** (Baserow)
 - **KuroWatch** (Changedetection)
+- **Kuro Sign** (DocuSeal E-Signature)
+- **Kuro Notes** (Obsidian Integration)
 - **Kuro Apps** (Budibase)
 - **Kuro Studio** (Shotcut)
 
