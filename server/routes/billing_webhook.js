@@ -102,6 +102,31 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
         }
 
         console.log(`[Stripe Webhook] Subscription active for tenant ${tenantId} on plan ${planType}`);
+
+        // Forward checkout conversion & referral tracking to Kuro Affiliate Platform
+        const refId = session.metadata?.ref || session.client_reference_id;
+        if (refId) {
+            try {
+                const affiliateServiceUrl = process.env.AFFILIATE_SERVICE_URL || 'http://kuro-affiliate:3000';
+                await fetch(`${affiliateServiceUrl}/api/v1/conversions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        referral_code: refId,
+                        tenant_id: tenantId,
+                        amount_total: session.amount_total,
+                        currency: session.currency,
+                        commission_percentage: 15,
+                        stripe_checkout_id: session.id,
+                        stripe_customer_id: customerId,
+                        stripe_subscription_id: subscriptionId
+                    })
+                });
+                console.log(`[Affiliate Webhook] Conversion recorded for referral ${refId} with 15% MSP commission.`);
+            } catch (affErr) {
+                console.error('[Affiliate Webhook] Failed to forward to affiliate platform:', affErr.message);
+            }
+        }
     }
 
     res.json({ received: true });

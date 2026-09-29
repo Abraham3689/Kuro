@@ -39,6 +39,10 @@ send.kurosuite.fr {
   reverse_proxy kuro-send:53317
 }
 
+affiliate.kurosuite.fr, partners.kurosuite.fr {
+  reverse_proxy kuro-affiliate:3000
+}
+
 # Pro Services
 sign.kurosuite.fr {
   reverse_proxy kuro-sign:3000

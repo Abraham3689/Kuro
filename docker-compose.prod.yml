@@ -15,6 +15,7 @@ volumes:
   data_data:
   apps_data:
   watch_data:
+  affiliate_data:
 
 services:
   # ==========================================
@@ -112,6 +113,21 @@ services:
     image: localsend/localsend:latest
     container_name: kuro-send
     restart: always
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  kuro-affiliate:
+    image: ghcr.io/dubinc/dub:latest
+    container_name: kuro-affiliate
+    restart: always
+    environment:
+      - PORT=3000
+      - AFFILIATE_RECURRING_COMMISSION_PERCENTAGE=15
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+    volumes:
+      - affiliate_data:/app/data
     networks:
       - kuro-network
     profiles: ["core", "pro"]
