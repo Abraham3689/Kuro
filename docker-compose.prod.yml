@@ -117,7 +117,7 @@ services:
     profiles: ["core", "pro"]
 
   kuro-send:
-    image: localsend/localsend:latest
+    image: lscr.io/linuxserver/pairdrop:latest
     container_name: kuro-send
     restart: always
     networks:
