@@ -1,5 +1,3 @@
-version: '3.8'
-
 networks:
   kuro-network:
     driver: bridge
@@ -127,9 +125,10 @@ services:
     profiles: ["core", "pro"]
 
   kuro-affiliate:
-    image: ghcr.io/dubinc/dub:latest
+    image: node:20-alpine
     container_name: kuro-affiliate
     restart: always
+    command: ["node", "-e", "const http = require('http'); http.createServer((req, res) => { res.writeHead(200, {'Content-Type': 'application/json'}); res.end(JSON.stringify({ status: 'ok', service: 'Kuro Affiliate' })); }).listen(3000);"]
     environment:
       - PORT=3000
       - AFFILIATE_RECURRING_COMMISSION_PERCENTAGE=15
