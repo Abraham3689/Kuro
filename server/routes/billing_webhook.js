@@ -79,9 +79,10 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
             console.error('Error fetching checkout line items:', e);
         }
 
-        // Determine plan_type based on price_id
+        // Determine plan_type and storage quota (50GB Core / 100GB Pro)
         const planType = PRICE_PLAN_MAP[priceId] || session.metadata?.plan_type || 'core';
         const allowedModules = MODULE_PACKS[planType] || MODULE_PACKS.core;
+        const storageQuotaGb = planType === 'pro' ? 100 : 50;
 
         // Update or insert subscription in Supabase
         const { data, error } = await supabase
@@ -92,6 +93,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
                 stripe_subscription_id: subscriptionId,
                 plan_type: planType,
                 allowed_modules: allowedModules,
+                storage_quota_gb: storageQuotaGb,
                 status: 'active',
                 updated_at: new Date()
             }, { onConflict: 'tenant_id' });

@@ -59,6 +59,15 @@ services:
     image: nextcloud:latest
     container_name: kuro-drive
     restart: always
+    environment:
+      - OBJECTSTORE_S3_BUCKET=${B2_BUCKET_NAME}
+      - OBJECTSTORE_S3_REGION=${B2_REGION}
+      - OBJECTSTORE_S3_KEY=${B2_KEY_ID}
+      - OBJECTSTORE_S3_SECRET=${B2_APPLICATION_KEY}
+      - OBJECTSTORE_S3_HOST=${B2_ENDPOINT}
+      - OBJECTSTORE_S3_PORT=443
+      - OBJECTSTORE_S3_SSL=true
+      - OBJECTSTORE_S3_AUTOCREATE=true
     volumes:
       - drive_data:/var/www/html
     networks:
