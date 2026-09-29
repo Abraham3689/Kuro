@@ -91,11 +91,11 @@ services:
     profiles: ["core", "pro"]
 
   kuro-mail:
-    image: stalwartlabs/mail-server:latest
+    image: axllent/mailpit:latest
     container_name: kuro-mail
     restart: always
     volumes:
-      - mail_data:/opt/stalwart-mail
+      - mail_data:/data
     networks:
       - kuro-network
     profiles: ["core", "pro"]
