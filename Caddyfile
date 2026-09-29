@@ -1,0 +1,69 @@
+{
+  email admin@kurosuite.fr
+}
+
+# Core Services
+office.kurosuite.fr {
+  reverse_proxy kuro-office:8000
+}
+
+notes.kurosuite.fr {
+  reverse_proxy kuro-notes:3000
+}
+
+drive.kurosuite.fr {
+  reverse_proxy kuro-drive:80
+}
+
+chat.kurosuite.fr {
+  reverse_proxy kuro-chat:8065
+}
+
+meet.kurosuite.fr {
+  reverse_proxy kuro-meet:80
+}
+
+mail.kurosuite.fr {
+  reverse_proxy kuro-mail:8080
+}
+
+pdf.kurosuite.fr {
+  reverse_proxy kuro-pdf:8080
+}
+
+diagram.kurosuite.fr {
+  reverse_proxy kuro-diagram:8080
+}
+
+send.kurosuite.fr {
+  reverse_proxy kuro-send:53317
+}
+
+# Pro Services
+sign.kurosuite.fr {
+  reverse_proxy kuro-sign:3000
+}
+
+crm.kurosuite.fr {
+  reverse_proxy kuro-crm:3000
+}
+
+data.kurosuite.fr {
+  reverse_proxy kuro-data:80
+}
+
+apps.kurosuite.fr {
+  reverse_proxy kuro-apps:10000
+}
+
+watch.kurosuite.fr {
+  reverse_proxy kurowatch:5000
+}
+
+studio.kurosuite.fr {
+  reverse_proxy kuro-studio:3000
+}
+
+ai.kurosuite.fr {
+  reverse_proxy abraham-ai:8080
+}

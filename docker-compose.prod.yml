@@ -1,0 +1,186 @@
+version: '3.8'
+
+networks:
+  kuro-network:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
+  drive_data:
+  chat_data:
+  mail_data:
+  sign_data:
+  crm_data:
+  data_data:
+  apps_data:
+  watch_data:
+
+services:
+  # ==========================================
+  # REVERSE PROXY & SSL AUTOMATIQUE
+  # ==========================================
+  caddy:
+    image: caddy:2-alpine
+    container_name: kuro-caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  # ==========================================
+  # SERVICES PACK CORE
+  # ==========================================
+  kuro-office:
+    image: onlyoffice/documentserver:latest
+    container_name: kuro-office
+    restart: always
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  kuro-notes:
+    image: lscr.io/linuxserver/obsidian:latest
+    container_name: kuro-notes
+    restart: always
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  kuro-drive:
+    image: nextcloud:latest
+    container_name: kuro-drive
+    restart: always
+    volumes:
+      - drive_data:/var/www/html
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  kuro-chat:
+    image: mattermost/mattermost-team-edition:latest
+    container_name: kuro-chat
+    restart: always
+    volumes:
+      - chat_data:/mattermost/data
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  kuro-meet:
+    image: jitsi/web:latest
+    container_name: kuro-meet
+    restart: always
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  kuro-mail:
+    image: stalwartofficial/stalwart-mail:latest
+    container_name: kuro-mail
+    restart: always
+    volumes:
+      - mail_data:/opt/stalwart-mail
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  kuro-pdf:
+    image: frooodle/s-pdf:latest
+    container_name: kuro-pdf
+    restart: always
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  kuro-diagram:
+    image: jgraph/drawio:latest
+    container_name: kuro-diagram
+    restart: always
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  kuro-send:
+    image: localsend/localsend:latest
+    container_name: kuro-send
+    restart: always
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  # ==========================================
+  # SERVICES PACK PRO
+  # ==========================================
+  kuro-sign:
+    image: docuseal/docuseal:latest
+    container_name: kuro-sign
+    restart: always
+    volumes:
+      - sign_data:/data
+    networks:
+      - kuro-network
+    profiles: ["pro"]
+
+  kuro-crm:
+    image: twentycrm/twenty:latest
+    container_name: kuro-crm
+    restart: always
+    volumes:
+      - crm_data:/app/data
+    networks:
+      - kuro-network
+    profiles: ["pro"]
+
+  kuro-data:
+    image: baserow/baserow:latest
+    container_name: kuro-data
+    restart: always
+    volumes:
+      - data_data:/media/mstorage
+    networks:
+      - kuro-network
+    profiles: ["pro"]
+
+  kuro-apps:
+    image: budibase/budibase:latest
+    container_name: kuro-apps
+    restart: always
+    volumes:
+      - apps_data:/data
+    networks:
+      - kuro-network
+    profiles: ["pro"]
+
+  kurowatch:
+    image: dgtlmoon/changedetection.io:latest
+    container_name: kurowatch
+    restart: always
+    volumes:
+      - watch_data:/datastore
+    networks:
+      - kuro-network
+    profiles: ["pro"]
+
+  kuro-studio:
+    image: linuxserver/shotcut:latest
+    container_name: kuro-studio
+    restart: always
+    networks:
+      - kuro-network
+    profiles: ["pro"]
+
+  abraham-ai:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: abraham-ai
+    restart: always
+    networks:
+      - kuro-network
+    profiles: ["pro"]
