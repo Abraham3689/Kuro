@@ -91,7 +91,7 @@ services:
     profiles: ["core", "pro"]
 
   kuro-mail:
-    image: stalwartofficial/stalwart-mail:latest
+    image: stalwartlabs/mail-server:latest
     container_name: kuro-mail
     restart: always
     volumes:
