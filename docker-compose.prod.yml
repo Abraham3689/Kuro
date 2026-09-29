@@ -83,7 +83,7 @@ services:
     profiles: ["core", "pro"]
 
   kuro-meet:
-    image: jitsi/web:latest
+    image: jitsi/web:stable
     container_name: kuro-meet
     restart: always
     networks:
