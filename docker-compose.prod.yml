@@ -14,6 +14,7 @@ volumes:
   apps_data:
   watch_data:
   affiliate_data:
+  chat_db_data:
 
 services:
   # ==========================================
@@ -72,10 +73,30 @@ services:
       - kuro-network
     profiles: ["core", "pro"]
 
+  kuro-chat-db:
+    image: postgres:15-alpine
+    container_name: kuro-chat-db
+    restart: always
+    environment:
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+    volumes:
+      - chat_db_data:/var/lib/postgresql/data
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
   kuro-chat:
     image: mattermost/mattermost-team-edition:latest
     container_name: kuro-chat
     restart: always
+    depends_on:
+      - kuro-chat-db
+    environment:
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mmuser_password@kuro-chat-db:5432/mattermost?sslmode=disable&connect_timeout=10
+      - MM_SERVICESETTINGS_SITEURL=http://chat.kuro.local
     volumes:
       - chat_data:/mattermost/data
     networks:
