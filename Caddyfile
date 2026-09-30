@@ -1,10 +1,66 @@
 {
   email admin@kurosuite.fr
+  admin off
 }
 
-# Core Services
+# ==========================================
+# DOMAINES LOCAUX (*.kuro.local)
+# ==========================================
+drive.kuro.local {
+  tls internal
+  reverse_proxy kuro-drive:80
+}
+
+chat.kuro.local {
+  tls internal
+  reverse_proxy kuro-chat:8065
+}
+
+mail.kuro.local {
+  tls internal
+  reverse_proxy kuro-mail:8025
+}
+
+office.kuro.local {
+  tls internal
+  reverse_proxy kuro-office:80
+}
+
+pdf.kuro.local {
+  tls internal
+  reverse_proxy kuro-pdf:8080
+}
+
+diagram.kuro.local {
+  tls internal
+  reverse_proxy kuro-diagram:8080
+}
+
+send.kuro.local {
+  tls internal
+  reverse_proxy kuro-send:3000
+}
+
+notes.kuro.local {
+  tls internal
+  reverse_proxy kuro-notes:3000
+}
+
+meet.kuro.local {
+  tls internal
+  reverse_proxy kuro-meet:80
+}
+
+affiliate.kuro.local, partners.kuro.local {
+  tls internal
+  reverse_proxy kuro-affiliate:3000
+}
+
+# ==========================================
+# DOMAINES PRODUCTION (*.kurosuite.fr)
+# ==========================================
 office.kurosuite.fr {
-  reverse_proxy kuro-office:8000
+  reverse_proxy kuro-office:80
 }
 
 notes.kurosuite.fr {
@@ -24,7 +80,7 @@ meet.kurosuite.fr {
 }
 
 mail.kurosuite.fr {
-  reverse_proxy kuro-mail:8080
+  reverse_proxy kuro-mail:8025
 }
 
 pdf.kurosuite.fr {
@@ -36,7 +92,7 @@ diagram.kurosuite.fr {
 }
 
 send.kurosuite.fr {
-  reverse_proxy kuro-send:53317
+  reverse_proxy kuro-send:3000
 }
 
 affiliate.kurosuite.fr, partners.kurosuite.fr {
