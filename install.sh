@@ -62,37 +62,33 @@ if ! docker compose version &> /dev/null; then
     fi
 fi
 
-echo -e "${GREEN}✓ Dépendances système validées (curl, git, docker, docker compose).${NC}"
-
-# ------------------------------------------------------------------------------
-# ÉTAPE 2 : SAISIE DES CLÉS KURO & AFFILIATION
-# ------------------------------------------------------------------------------
-echo -e "\n${BLUE}[2/5] Configuration des identifiants et domaine...${NC}"
-
-read -rp "$(echo -e "${CYAN}Entrez votre Clé de licence client (KURO_LICENSE_KEY) : ${NC}")" KURO_LICENSE_KEY
+# Saisie de la clé de licence
 while [ -z "$KURO_LICENSE_KEY" ]; do
-    echo -e "${RED}La clé de licence est obligatoire.${NC}"
- while [ -z "$KURO_LICENSE_KEY" ]; do
     read -rp "$(echo -e "${CYAN}Entrez votre Clé de licence client (KURO_LICENSE_KEY) : ${NC}")" KURO_LICENSE_KEY
+    if [ -z "$KURO_LICENSE_KEY" ]; then
+        echo -e "${RED}La clé de licence est obligatoire.${NC}"
+    fi
 done
 
+# Saisie du MSP ID
 read -rp "$(echo -e "${CYAN}Entrez votre ID Partenaire MSP (MSP_ID) [ex: msp_partner_001] : ${NC}")" MSP_ID
 if [ -z "$MSP_ID" ]; then
     MSP_ID="default_msp"
 fi
 
-read -rp "$(echo -e "${CYAN}Entrez votre Nom de domaine principal (KURO_DOMAIN) [ex: cloud.entreprise.com] : ${NC}")" KURO_DOMAIN
+# Saisie du Domaine
 while [ -z "$KURO_DOMAIN" ]; do
-    echo -e "${RED}Le nom de domaine est obligatoire.${NC}"
     read -rp "$(echo -e "${CYAN}Entrez votre Nom de domaine principal (KURO_DOMAIN) [ex: cloud.entreprise.com] : ${NC}")" KURO_DOMAIN
+    if [ -z "$KURO_DOMAIN" ]; then
+        echo -e "${RED}Le nom de domaine est obligatoire.${NC}"
+    fi
 done
 
+# Saisie de l'Email Admin
 read -rp "$(echo -e "${CYAN}Entrez l'adresse Email d'administration SSL Let's Encrypt : ${NC}")" ADMIN_EMAIL
 if [ -z "$ADMIN_EMAIL" ]; then
-    ADMIN_EMAIL="admin@${KURO_DOMAIN}"
+    ADMIN_EMAIL="admin@$KURO_DOMAIN"
 fi
-
-# ------------------------------------------------------------------------------
 # ÉTAPE 3 : VALIDATION API & CONFIGURATION R2
 # ------------------------------------------------------------------------------
 echo -e "\n${BLUE}[3/5] Validation API Kuro Suite & provisionnement R2...${NC}"
