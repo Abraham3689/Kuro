@@ -91,7 +91,7 @@ sudo docker compose --profile pro -f docker-compose.prod.yml --env-file .env up 
 
 Devenez revendeur Kuro Suite et percevez **15% de commission mensuelle récurrente** sur chaque licence client.
 
-👉 [Accéder au Portail Partenaire MSP](https://kuro-portal.kurosuite.com)
+👉 [Accéder au Portail Partenaire MSP](https://console.aeorost.org)
 
 ---
 

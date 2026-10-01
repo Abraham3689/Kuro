@@ -99,7 +99,7 @@ fi
 # ÉTAPE 3 : VALIDATION API & CONFIGURATION R2
 # ------------------------------------------------------------------------------
 echo -e "\n${BLUE}[3/5] Validation API Kuro Suite & provisionnement R2...${NC}"
-API_URL="${KURO_API_URL:-https://api.kurosuite.com}"
+API_URL="${KURO_API_URL:-https://api.aeorost.org}"
 
 echo -e "${YELLOW}Connexion à l'API ${API_URL}/api/v1/license/validate...${NC}"
 
@@ -156,7 +156,11 @@ cat <<EOF > Caddyfile
   email ${ADMIN_EMAIL}
 }
 
-${KURO_DOMAIN} {
+cloud.${KURO_DOMAIN} {
+  reverse_proxy kuro-drive:80
+}
+
+chat.${KURO_DOMAIN} {
   reverse_proxy kuro-drive:80
 }
 
@@ -188,7 +192,7 @@ notes.${KURO_DOMAIN} {
   reverse_proxy kuro-notes:3000
 }
 
-affiliate.${KURO_DOMAIN} {
+console.${KURO_DOMAIN} {
   reverse_proxy kuro-affiliate:3000
 }
 

@@ -51,7 +51,7 @@ services:
       - ADMIN_API_KEY=${ADMIN_API_KEY:-kuro_admin_secret_2026}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
-      - PORTAL_URL=${PORTAL_URL:-https://portal.kurosuite.com}
+      - PORTAL_URL=${PORTAL_URL:-https://console.aeorost.org}
     volumes:
       - api_data:/app/data
     networks:

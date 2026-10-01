@@ -1,5 +1,5 @@
 {
-  email admin@kurosuite.fr
+  email admin@aeorost.org
   admin off
 }
 
@@ -51,79 +51,88 @@ meet.kuro.local {
   reverse_proxy kuro-meet:80
 }
 
-affiliate.kuro.local, partners.kuro.local {
+console.kuro.local {
   tls internal
   reverse_proxy kuro-affiliate:3000
 }
 
 # ==========================================
-# DOMAINES PRODUCTION (*.kurosuite.fr)
+# DOMAINES PRODUCTION (*.aeorost.org)
 # ==========================================
-office.kurosuite.fr {
-  reverse_proxy kuro-office:80
+kuro.aeorost.org {
+  reverse_proxy kuro-landing:80
 }
 
-notes.kurosuite.fr {
-  reverse_proxy kuro-notes:3000
+api.aeorost.org {
+  reverse_proxy kuro-api:3000
 }
 
-drive.kurosuite.fr {
-  reverse_proxy kuro-drive:80
-}
-
-chat.kurosuite.fr {
-  reverse_proxy kuro-drive:80
-}
-
-meet.kurosuite.fr {
-  reverse_proxy kuro-meet:80
-}
-
-mail.kurosuite.fr {
-  reverse_proxy kuro-mail:8025
-}
-
-pdf.kurosuite.fr {
-  reverse_proxy kuro-pdf:8080
-}
-
-diagram.kurosuite.fr {
-  reverse_proxy kuro-diagram:8080
-}
-
-send.kurosuite.fr {
-  reverse_proxy kuro-send:3000
-}
-
-affiliate.kurosuite.fr, partners.kurosuite.fr {
+console.aeorost.org {
   reverse_proxy kuro-affiliate:3000
 }
 
+cloud.aeorost.org {
+  reverse_proxy kuro-drive:80
+}
+
+chat.aeorost.org {
+  reverse_proxy kuro-drive:80
+}
+
+meet.aeorost.org {
+  reverse_proxy kuro-meet:80
+}
+
+office.aeorost.org {
+  reverse_proxy kuro-office:80
+}
+
+notes.aeorost.org {
+  reverse_proxy kuro-notes:3000
+}
+
+mail.aeorost.org {
+  reverse_proxy kuro-mail:8025
+}
+
+pdf.aeorost.org {
+  reverse_proxy kuro-pdf:8080
+}
+
+diagram.aeorost.org {
+  reverse_proxy kuro-diagram:8080
+}
+
+send.aeorost.org {
+  reverse_proxy kuro-send:3000
+}
+
 # Pro Services
-sign.kurosuite.fr {
+sign.aeorost.org {
   reverse_proxy kuro-sign:3000
 }
 
-crm.kurosuite.fr {
+crm.aeorost.org {
   reverse_proxy kuro-crm:3000
 }
 
-data.kurosuite.fr {
+data.aeorost.org {
   reverse_proxy kuro-data:80
 }
 
-apps.kurosuite.fr {
+apps.aeorost.org {
   reverse_proxy kuro-apps:10000
 }
 
-watch.kurosuite.fr {
+watch.aeorost.org {
   reverse_proxy kurowatch:5000
 }
 
-studio.kurosuite.fr {
+studio.aeorost.org {
   reverse_proxy kuro-studio:3000
 }
 
-ai.kurosuite.fr {
+ai.aeorost.org {
   reverse_proxy abraham-ai:8080
 }
+
