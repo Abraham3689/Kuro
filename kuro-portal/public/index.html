@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portail Partenaires MSP — Kuro Suite</title>
+  <title>Console MSP Partenaires — Kuro Suite (console.aeorost.org)</title>
   <style>
     :root {
       --bg-dark: #0f172a;
@@ -14,6 +14,7 @@
       --text-white: #f8fafc;
       --text-muted: #94a3b8;
       --success-green: #10b981;
+      --warning-amber: #f59e0b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
@@ -33,10 +34,10 @@
 
     main { flex: 1; padding: 32px; max-width: 1200px; margin: 0 auto; width: 100%; }
 
-    /* Login Box */
-    .login-container {
-      max-width: 440px;
-      margin: 60px auto;
+    /* Login / Onboarding Container */
+    .onboarding-container {
+      max-width: 520px;
+      margin: 40px auto;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 12px;
@@ -44,11 +45,11 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
 
-    .login-container h2 { font-size: 1.4rem; margin-bottom: 8px; color: var(--text-white); }
-    .login-container p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
+    .onboarding-container h2 { font-size: 1.5rem; margin-bottom: 8px; color: var(--text-white); }
+    .onboarding-container p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; leading-height: 1.4; }
 
     .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted); }
+    .form-group label { display: block; font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted); font-weight: 600; }
     .form-group input {
       width: 100%;
       background: var(--bg-dark);
@@ -58,6 +59,7 @@
       color: white;
       font-size: 0.95rem;
     }
+    .form-group input:focus { outline: none; border-color: var(--accent-blue); }
 
     .btn-primary {
       width: 100%;
@@ -71,6 +73,21 @@
       transition: background 0.2s;
     }
     .btn-primary:hover { background: var(--accent-hover); }
+
+    .btn-stripe {
+      background: #635bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+    }
+    .btn-stripe:hover { opacity: 0.9; }
 
     /* Dashboard Layout */
     .kpi-grid {
@@ -104,6 +121,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .table-responsive { overflow-x: auto; }
@@ -122,6 +141,7 @@
     }
     .status-badge.online { background: rgba(16, 185, 129, 0.15); color: #10b981; }
     .status-badge.offline { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+    .status-badge.pending { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
 
     .btn-secondary {
       background: transparent;
@@ -134,199 +154,350 @@
       font-weight: 600;
     }
     .btn-secondary:hover { background: rgba(2, 132, 199, 0.1); }
+
+    /* Command snippet box */
+    .cmd-box {
+      background: var(--bg-dark);
+      border: 1px solid var(--accent-blue);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: monospace;
+      font-size: 0.95rem;
+      color: #38bdf8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      word-break: break-all;
+      gap: 12px;
+    }
+    .btn-copy {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+    .btn-copy:hover { border-color: var(--accent-blue); color: #38bdf8; }
   </style>
 </head>
 <body>
   <header>
     <div class="brand-logo">
       <span>🛡️ Kuro Suite</span>
-      <span style="color: var(--text-muted); font-size: 0.9rem;">| Portail MSP</span>
+      <span style="color: var(--text-muted); font-size: 0.9rem;">| Console Partenaires MSP</span>
     </div>
     <div id="user-header" class="user-info" style="display: none;">
-      <span id="msp-display-id">MSP-ID: -</span>
+      <span id="msp-display-name">MSP: -</span>
+      <span id="msp-display-id" style="color: var(--accent-blue); font-weight: 600;">(ID: -)</span>
       <button class="btn-secondary" onclick="logout()">Déconnexion</button>
     </div>
   </header>
 
   <main>
-    <!-- LOGIN VIEW -->
-    <div id="login-view" class="login-container">
-      <h2>Espace Partenaire MSP</h2>
-      <p>Saisissez votre ID Partenaire pour accéder à votre tableau de bord d'affiliation.</p>
-      <form id="login-form">
+    <!-- ONBOARDING & LOGIN VIEW -->
+    <div id="login-view" class="onboarding-container">
+      <h2>Connexion & Activation MSP</h2>
+      <p>Renseignez vos informations partenaire pour accéder à votre console de gestion et activer vos paiements Stripe Connect.</p>
+      
+      <form id="onboarding-form">
         <div class="form-group">
-          <label for="msp-id-input">ID Partenaire MSP</label>
-          <input type="text" id="msp-id-input" placeholder="ex: MSP-ALPHA" required />
+          <label for="msp-id-input">ID Partenaire MSP (Identifiant unique)</label>
+          <input type="text" id="msp-id-input" placeholder="ex: MSP-ALPHA88" required />
         </div>
         <div class="form-group">
-          <label for="msp-key-input">Clé d'accès / Mot de passe</label>
-          <input type="password" id="msp-key-input" placeholder="••••••••" required />
+          <label for="msp-name-input">Nom de la Société / Entreprise</label>
+          <input type="text" id="msp-name-input" placeholder="ex: Alpha IT Services" required />
         </div>
-        <button type="submit" class="btn-primary">Accéder au Portail</button>
+        <div class="form-group">
+          <label for="msp-email-input">Email Professionnel</label>
+          <input type="email" id="msp-email-input" placeholder="ex: contact@alphait.com" required />
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-bottom: 12px;">Accéder au Tableau de Bord</button>
       </form>
     </div>
 
     <!-- DASHBOARD VIEW -->
     <div id="dashboard-view" style="display: none;">
+      
       <!-- KPI CARDS -->
       <div class="kpi-grid">
         <div class="kpi-card">
-          <h4>Clients & VPS Actifs</h4>
-          <div class="value" id="kpi-active-vps">2</div>
-          <div class="subtext">↑ 100% opérationnels</div>
+          <h4>Licences & VPS Déployés</h4>
+          <div class="value" id="kpi-active-vps">0</div>
+          <div class="subtext">Commissions actives : 15% / licence</div>
         </div>
         <div class="kpi-card">
-          <h4>Commissions Cumulées</h4>
-          <div class="value" id="kpi-commissions">148,50 €</div>
-          <div class="subtext">Taux récurrent : 15% / mois</div>
+          <h4>Compte Stripe Connect</h4>
+          <div class="value" id="kpi-stripe-status" style="font-size: 1.3rem; margin-top: 8px;">Non connecté</div>
+          <div class="subtext" id="kpi-stripe-sub">Paiements automatiques en attente</div>
         </div>
         <div class="kpi-card">
-          <h4>Prochain Virement Estimé</h4>
-          <div class="value" id="kpi-payout">74,25 €</div>
-          <div class="subtext">Paiement le 15 du mois</div>
+          <h4>Serveur API Kuro</h4>
+          <div class="value" style="font-size: 1.3rem; color: #10b981; margin-top: 8px;">api.aeorost.org</div>
+          <div class="subtext">✓ Connexion API directe active</div>
         </div>
       </div>
 
-      <!-- STRIPE CONNECT SECTION -->
+      <!-- ONBOARDING STRIPE CONNECT -->
       <div class="section-card">
         <div class="section-header">
-          <h3>💳 Configuration des Virements Automatiques (Stripe Connect)</h3>
+          <h3>💳 Activation des Commissions (Stripe Connect)</h3>
           <span id="stripe-status-badge" class="status-badge offline">⚪ Non Connecté</span>
         </div>
         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
-          Liez votre compte bancaire via Stripe Connect pour recevoir vos commissions récurrentes (15%) automatiquement à chaque renouvellement client.
+          Connectez votre compte bancaire via Stripe Connect Express pour percevoir automatiquement vos 15% de commission mensuelle récurrente sur chaque licence activée.
         </p>
-        <button id="stripe-connect-btn" class="btn-primary" style="width: auto; padding: 10px 20px; background: #635bff;" onclick="connectStripe()">
-          Connecter mon compte Stripe
+        <button id="stripe-connect-btn" class="btn-stripe" onclick="activateStripeConnect()">
+          💳 Activer mon compte Stripe Connect
         </button>
       </div>
 
       <!-- GENERATEUR DE LICENCES -->
       <div class="section-card">
         <div class="section-header">
-          <h3>🔑 Générateur de Clé de Licence Client</h3>
-          <button class="btn-primary" style="width: auto; padding: 8px 16px;" onclick="generateLicense()">+ Générer une Clé</button>
+          <h3>🔑 Générer une Nouvelle Clé de Licence</h3>
+          <button class="btn-primary" style="width: auto; padding: 8px 18px;" onclick="createLicense()">+ Générer une Licence</button>
         </div>
         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
-          Générez une nouvelle clé de licence pré-liée à votre <strong>MSP_ID</strong> pour l'utiliser lors du déploiement via <code>install.sh</code>.
+          Générez une clé de licence enregistrée sur l'API <strong style="color: white;">api.aeorost.org</strong> et liée à votre <strong>MSP_ID</strong>.
         </p>
-        <div id="generated-key-box" style="display: none; background: var(--bg-dark); padding: 16px; border-radius: 6px; border: 1px solid var(--accent-blue); font-family: monospace; font-size: 1.1rem; color: #38bdf8;">
-          <!-- Clé générée affichée ici -->
+
+        <!-- COMMANDE DINSTALLATION PRETE A L'EMPLOI -->
+        <div id="cmd-container" style="display: none; margin-top: 16px;">
+          <h4 style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">🚀 Commande d'installation One-Line prête à l'emploi (À exécuter sur le VPS Client) :</h4>
+          <div class="cmd-box">
+            <span id="cmd-text">curl -sSL https://raw.githubusercontent.com/Abraham3689/Kuro/main/install.sh | bash</span>
+            <button class="btn-copy" onclick="copyInstallCmd()">Copier la commande</button>
+          </div>
         </div>
       </div>
 
-      <!-- TABLEAU DU PARC CLIENT -->
+      <!-- ESPACE DE GESTION DES LICENCES -->
       <div class="section-card">
         <div class="section-header">
-          <h3>🖥️ Statut du Parc Client & Heartbeats</h3>
-          <button class="btn-secondary" onclick="requestCashout()">Demander un Retrait (Cashout)</button>
+          <h3>🖥️ Espace de Gestion des Licences Client</h3>
+          <button class="btn-secondary" onclick="loadMspLicenses()">🔄 Actualiser la liste</button>
         </div>
         <div class="table-responsive">
           <table>
             <thead>
               <tr>
-                <th>Domaine Client</th>
                 <th>Clé de Licence</th>
-                <th>Statut VPS</th>
-                <th>Dernier Ping</th>
-                <th>Commission Mensuelle</th>
+                <th>Domaine Client</th>
+                <th>Statut</th>
+                <th>Dernier Heartbeat / Ping</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody id="vps-table-body">
+            <tbody id="licenses-table-body">
               <tr>
-                <td><strong>cloud.entreprise.com</strong></td>
-                <td><code>LIC-TEST-2026</code></td>
-                <td><span class="status-badge online">● En Ligne</span></td>
-                <td>Il y a 2 minutes</td>
-                <td>29,85 € / mois</td>
-              </tr>
-              <tr>
-                <td><strong>demo.kurosuite.fr</strong></td>
-                <td><code>LIC-DEMO-CORE</code></td>
-                <td><span class="status-badge online">● En Ligne</span></td>
-                <td>Il y a 5 minutes</td>
-                <td>44,40 € / mois</td>
+                <td colspan="5" style="text-align: center; color: var(--text-muted);">Chargement des licences...</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+
     </div>
   </main>
 
   <script>
-    let currentMspId = localStorage.getItem('kuro_msp_id') || '';
+    let API_BASE = 'https://api.aeorost.org';
+    let currentMsp = {
+      msp_id: localStorage.getItem('kuro_msp_id') || '',
+      name: localStorage.getItem('kuro_msp_name') || '',
+      email: localStorage.getItem('kuro_msp_email') || ''
+    };
 
-    if (currentMspId) {
-      showDashboard(currentMspId);
+    // Détecter l'URL API (locale ou prod)
+    fetch('/api/config')
+      .then(res => res.json())
+      .then(data => { if (data.apiUrl) API_BASE = data.apiUrl; })
+      .catch(() => {});
+
+    if (currentMsp.msp_id) {
+      showDashboard(currentMsp);
     }
 
-    document.getElementById('login-form').addEventListener('submit', (e) => {
+    document.getElementById('onboarding-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const mspId = document.getElementById('msp-id-input').value.trim();
-      if (mspId) {
+      const mspId = document.getElementById('msp-id-input').value.trim().toUpperCase();
+      const name = document.getElementById('msp-name-input').value.trim();
+      const email = document.getElementById('msp-email-input').value.trim();
+
+      if (!mspId || !name || !email) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/msp/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ msp_id: mspId, name, email })
+        });
+        const data = await res.json();
+        
+        if (data.status === 'success' || res.ok) {
+          currentMsp = { msp_id: mspId, name, email };
+          localStorage.setItem('kuro_msp_id', mspId);
+          localStorage.setItem('kuro_msp_name', name);
+          localStorage.setItem('kuro_msp_email', email);
+          showDashboard(currentMsp);
+        } else {
+          alert('Erreur inscription MSP: ' + (data.message || 'Erreur serveur'));
+        }
+      } catch (err) {
+        // Fallback local si l'API est injoignable
+        currentMsp = { msp_id: mspId, name, email };
         localStorage.setItem('kuro_msp_id', mspId);
-        showDashboard(mspId);
+        localStorage.setItem('kuro_msp_name', name);
+        localStorage.setItem('kuro_msp_email', email);
+        showDashboard(currentMsp);
       }
     });
 
-    async function checkStripeStatus(mspId) {
-      try {
-        const res = await fetch(`http://localhost:3000/api/stripe/status?msp_id=${mspId}`);
-        const data = await res.json();
-        const badge = document.getElementById('stripe-status-badge');
-        const btn = document.getElementById('stripe-connect-btn');
-
-        if (data.stripe_connected) {
-          badge.className = 'status-badge online';
-          badge.innerText = '🟢 Paiements Automatiques Actifs';
-          btn.innerText = 'Gérer mon compte Stripe Express';
-        }
-      } catch (e) {
-        console.log('Erreur check Stripe:', e);
-      }
-    }
-
-    function showDashboard(mspId) {
-      currentMspId = mspId;
+    function showDashboard(msp) {
       document.getElementById('login-view').style.display = 'none';
       document.getElementById('dashboard-view').style.display = 'block';
       document.getElementById('user-header').style.display = 'flex';
-      document.getElementById('msp-display-id').innerText = `MSP-ID: ${mspId}`;
-      checkStripeStatus(mspId);
+      document.getElementById('msp-display-name').innerText = msp.name || 'MSP Partner';
+      document.getElementById('msp-display-id').innerText = `(ID: ${msp.msp_id})`;
+      
+      checkStripeStatus(msp.msp_id);
+      loadMspLicenses();
     }
 
-    async function connectStripe() {
+    async function checkStripeStatus(mspId) {
       try {
-        const res = await fetch(`http://localhost:3000/api/stripe/onboarding?msp_id=${currentMspId}`);
+        const res = await fetch(`${API_BASE}/api/stripe/status?msp_id=${mspId}`);
+        const data = await res.json();
+        const badge = document.getElementById('stripe-status-badge');
+        const btn = document.getElementById('stripe-connect-btn');
+        const kpiValue = document.getElementById('kpi-stripe-status');
+        const kpiSub = document.getElementById('kpi-stripe-sub');
+
+        if (data.stripe_connected) {
+          badge.className = 'status-badge online';
+          badge.innerText = '🟢 Stripe Connect Actif';
+          btn.innerText = '⚙️ Gérer mon compte Stripe Express';
+          kpiValue.innerText = 'Actif (15%)';
+          kpiValue.style.color = '#10b981';
+          kpiSub.innerText = 'Virements automatiques configurés';
+        } else {
+          badge.className = 'status-badge offline';
+          badge.innerText = '⚪ En attente de connexion';
+          kpiValue.innerText = 'Non connecté';
+          kpiValue.style.color = '#ef4444';
+          kpiSub.innerText = 'Cliquez pour lier votre RIB/Compte';
+        }
+      } catch (e) {
+        console.log('Erreur verification Stripe:', e);
+      }
+    }
+
+    async function activateStripeConnect() {
+      try {
+        const res = await fetch(`${API_BASE}/api/stripe/onboarding?msp_id=${currentMsp.msp_id}`);
         const data = await res.json();
         if (data.onboarding_url) {
           window.location.href = data.onboarding_url;
         } else {
-          alert('Erreur lors de la génération du lien Stripe Connect: ' + (data.message || 'Inconnu'));
+          alert('Erreur génération lien Stripe: ' + (data.message || 'Vérifiez la configuration serveur'));
         }
       } catch (err) {
-        alert('Impossible de contacter le serveur d\'API Stripe Connect');
+        alert('Impossible de contacter le service API Stripe Connect (' + API_BASE + ')');
       }
+    }
+
+    async function loadMspLicenses() {
+      const tbody = document.getElementById('licenses-table-body');
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Chargement...</td></tr>`;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/msp/licenses?msp_id=${currentMsp.msp_id}`);
+        const data = await res.json();
+
+        if (data.status === 'success' && data.licenses) {
+          document.getElementById('kpi-active-vps').innerText = data.licenses.length;
+          
+          if (data.licenses.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Aucune licence créée pour le moment. Cliquez sur "+ Générer une Licence".</td></tr>`;
+            return;
+          }
+
+          tbody.innerHTML = data.licenses.map(lic => {
+            const domainText = lic.client_domain || '<span style="color: var(--text-muted); italic;">Non configuré</span>';
+            const statusBadge = lic.status === 'active' 
+              ? '<span class="status-badge online">● Actif</span>' 
+              : '<span class="status-badge offline">● Inactif</span>';
+            const ping = lic.last_ping ? new Date(lic.last_ping).toLocaleString() : 'En attente de 1er heartbeat';
+
+            return `
+              <tr>
+                <td><code style="color: #38bdf8; font-weight: bold;">${lic.license_key}</code></td>
+                <td>${domainText}</td>
+                <td>${statusBadge}</td>
+                <td style="font-size: 0.85rem; color: var(--text-muted);">${ping}</td>
+                <td>
+                  <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="selectLicense('${lic.license_key}')">Utiliser</button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #ef4444;">Erreur chargement licences depuis ${API_BASE}.</td></tr>`;
+      }
+    }
+
+    async function createLicense() {
+      const domainInput = prompt("Nom de domaine du client (optionnel) :", "cloud.client-entreprise.com");
+      
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/msp/licenses/create`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ msp_id: currentMsp.msp_id, client_domain: domainInput || null })
+        });
+        const data = await res.json();
+
+        if (data.status === 'success' && data.data) {
+          selectLicense(data.data.license_key);
+          loadMspLicenses();
+        } else {
+          alert('Erreur création licence: ' + (data.message || 'Erreur serveur'));
+        }
+      } catch (err) {
+        alert('Erreur de communication avec l\'API (' + API_BASE + ')');
+      }
+    }
+
+    function selectLicense(licenseKey) {
+      const cmdContainer = document.getElementById('cmd-container');
+      const cmdText = document.getElementById('cmd-text');
+      cmdContainer.style.display = 'block';
+      
+      const fullCmd = `KURO_LICENSE_KEY=${licenseKey} MSP_ID=${currentMsp.msp_id} bash <(curl -sSL https://raw.githubusercontent.com/Abraham3689/Kuro/main/install.sh)`;
+      cmdText.innerText = fullCmd;
+      cmdContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyInstallCmd() {
+      const cmdText = document.getElementById('cmd-text').innerText;
+      navigator.clipboard.writeText(cmdText).then(() => {
+        alert('Commande d\'installation copiée dans le presse-papier !');
+      });
     }
 
     function logout() {
       localStorage.removeItem('kuro_msp_id');
+      localStorage.removeItem('kuro_msp_name');
+      localStorage.removeItem('kuro_msp_email');
       document.getElementById('login-view').style.display = 'block';
       document.getElementById('dashboard-view').style.display = 'none';
       document.getElementById('user-header').style.display = 'none';
-    }
-
-    function generateLicense() {
-      const randStr = Math.random().toString(36).substring(2, 8).toUpperCase();
-      const newKey = `LIC-${currentMspId.replace(/[^A-Z0-9]/gi, '')}-${randStr}`;
-      const box = document.getElementById('generated-key-box');
-      box.style.display = 'block';
-      box.innerHTML = `<strong>Clé Générée :</strong> ${newKey}<br><small style="color: var(--text-muted);">À utiliser lors de l'exécution de ./install.sh sur le VPS client.</small>`;
-    }
-
-    function requestCashout() {
-      alert(`[Stripe Connect] Demande de retrait enregistrée pour le compte MSP (${currentMspId}). Le virement sera exécuté vers votre compte bancaire affilié.`);
     }
   </script>
 </body>
