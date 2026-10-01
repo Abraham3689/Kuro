@@ -13,6 +13,7 @@ volumes:
   apps_data:
   watch_data:
   affiliate_data:
+  api_data:
   drive_db_data:
 
 services:
@@ -30,6 +31,29 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
+  # ==========================================
+  # API BACKEND & VALIDATION LICENCES
+  # ==========================================
+  kuro-api:
+    build:
+      context: ./kuro-api
+      dockerfile: Dockerfile
+    container_name: kuro-api
+    restart: always
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - DB_PATH=/app/data/kuro.db
+      - ADMIN_API_KEY=${ADMIN_API_KEY:-kuro_admin_secret_2026}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - PORTAL_URL=${PORTAL_URL:-https://portal.kurosuite.com}
+    volumes:
+      - api_data:/app/data
     networks:
       - kuro-network
     profiles: ["core", "pro"]

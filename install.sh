@@ -191,6 +191,10 @@ notes.${KURO_DOMAIN} {
 affiliate.${KURO_DOMAIN} {
   reverse_proxy kuro-affiliate:3000
 }
+
+api.${KURO_DOMAIN} {
+  reverse_proxy kuro-api:3000
+}
 EOF
 
 echo -e "${GREEN}✓ Caddyfile mis à jour pour le domaine ${KURO_DOMAIN}.${NC}"
