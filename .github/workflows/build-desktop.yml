@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd kuro-desktop
-          npm ci
+          npm install
 
       - name: Build Windows (.exe)
         if: matrix.os == 'windows-latest'
