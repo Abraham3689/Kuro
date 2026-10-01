@@ -15,6 +15,7 @@ volumes:
   watch_data:
   affiliate_data:
   chat_db_data:
+  drive_db_data:
 
 services:
   # ==========================================
@@ -54,11 +55,34 @@ services:
       - kuro-network
     profiles: ["core", "pro"]
 
+  kuro-drive-db:
+    image: postgres:15-alpine
+    container_name: kuro-drive-db
+    restart: always
+    environment:
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=nextcloud_password
+      - POSTGRES_DB=nextcloud
+    volumes:
+      - drive_db_data:/var/lib/postgresql/data
+    networks:
+      - kuro-network
+    profiles: ["core", "pro"]
+
   kuro-drive:
     image: nextcloud:latest
     container_name: kuro-drive
     restart: always
+    depends_on:
+      - kuro-drive-db
     environment:
+      - POSTGRES_HOST=kuro-drive-db
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=nextcloud_password
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD=KuroAdmin2026!
+      - NEXTCLOUD_TRUSTED_DOMAINS=drive.kuro.local drive.kurosuite.fr
       - OBJECTSTORE_S3_BUCKET=${B2_BUCKET_NAME}
       - OBJECTSTORE_S3_REGION=${B2_REGION}
       - OBJECTSTORE_S3_KEY=${B2_KEY_ID}
