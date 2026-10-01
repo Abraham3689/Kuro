@@ -1,0 +1,16 @@
+{
+  "name": "kuro-desktop",
+  "version": "1.0.0",
+  "description": "Client IA Local Sovereign & Assistant RAG pour Kuro Suite (Little Abraham)",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0"
+  }
+}
