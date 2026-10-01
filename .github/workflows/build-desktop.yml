@@ -1,0 +1,55 @@
+name: Build & Release Kuro Desktop
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: kuro-desktop/package.json
+
+      - name: Install dependencies
+        run: |
+          cd kuro-desktop
+          npm ci
+
+      - name: Build Windows (.exe)
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd kuro-desktop
+          npm run build:win
+
+      - name: Build macOS (.dmg)
+        if: matrix.os == 'macos-latest'
+        run: |
+          cd kuro-desktop
+          npm run build:mac
+
+      - name: Upload Artifacts to Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            kuro-desktop/dist/*.exe
+            kuro-desktop/dist/*.dmg
+            kuro-desktop/dist/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
