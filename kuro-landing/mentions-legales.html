@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentions Légales - Kuro Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc',
+                            400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1',
+                            800: '#075985', 900: '#0c4a6e',
+                        },
+                        slate: { 850: '#152033' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
+
+    <!-- HEADER -->
+    <header class="fixed w-full top-0 z-50 glass-panel border-b border-slate-200" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/index.html" class="flex items-center gap-2 font-extrabold text-xl tracking-tight text-slate-900">
+                    <i data-lucide="shield" class="h-6 w-6 text-brand-600"></i>
+                    Kuro Suite
+                </a>
+                <nav class="flex space-x-6">
+                    <a href="/index.html" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1">
+                        <i data-lucide="arrow-left" class="h-4 w-4"></i> Retour à l'accueil
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="flex-grow pt-28 pb-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl p-8 sm:p-12 border border-slate-200 shadow-sm">
+                
+                <div class="border-b border-slate-200 pb-8 mb-8">
+                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-xs font-semibold text-slate-700 mb-4 border border-slate-200">
+                        Document Légal
+                    </div>
+                    <h1 class="text-3xl font-extrabold text-slate-900 sm:text-4xl tracking-tight">Mentions Légales</h1>
+                    <p class="mt-2 text-sm text-slate-500">Dernière mise à jour : 1er Octobre 2026</p>
+                </div>
+
+                <div class="space-y-8 text-slate-600 leading-relaxed text-sm sm:text-base">
+                    
+                    <section class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="building" class="h-5 w-5 text-brand-600"></i> 1. Éditeur du site
+                        </h2>
+                        <p>
+                            Le site <strong>kuro.aeorost.org</strong> est édité dans le cadre du projet <strong>Kuro Suite</strong>.
+                        </p>
+                        <div class="mt-4 p-4 bg-white rounded-lg border border-slate-200 flex items-center gap-3">
+                            <i data-lucide="mail" class="h-5 w-5 text-slate-400"></i>
+                            <div>
+                                <span class="text-xs uppercase tracking-wider font-bold text-slate-400 block">Contact Officiel</span>
+                                <a href="mailto:contact@aeorost.org" class="text-brand-600 font-semibold hover:underline">contact@aeorost.org</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="server" class="h-5 w-5 text-brand-600"></i> 2. Hébergement
+                        </h2>
+                        <p class="mb-3">
+                            Le site vitrine et l'infrastructure d'API et de démonstration de Kuro Suite sont hébergés par :
+                        </p>
+                        <div class="bg-white rounded-lg p-4 border border-slate-200 space-y-1 text-slate-700">
+                            <p class="font-bold text-slate-900">Infrastructure Cloud Souveraine</p>
+                            <p class="text-xs text-slate-500">Cloudflare Inc. / Datacenters Partenaires Sécurisés</p>
+                            <p class="text-xs text-slate-500">101 Townsend St, San Francisco, CA 94107, USA / Datacenters UE</p>
+                        </div>
+                    </section>
+
+                    <section class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="copyright" class="h-5 w-5 text-brand-600"></i> 3. Propriété intellectuelle
+                        </h2>
+                        <p>
+                            L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques.
+                        </p>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-400">
+            <p>&copy; 2026 Kuro Suite. Tous droits réservés.</p>
+            <div class="flex space-x-6">
+                <a href="/mentions-legales.html" class="text-slate-300 font-semibold hover:text-white">Mentions Légales</a>
+                <a href="/confidentialite.html" class="hover:text-white">Confidentialité</a>
+                <a href="/cgv.html" class="hover:text-white">CGV B2B</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

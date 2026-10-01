@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditions Générales de Vente (CGV) - Kuro Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc',
+                            400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1',
+                            800: '#075985', 900: '#0c4a6e',
+                        },
+                        slate: { 850: '#152033' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
+
+    <!-- HEADER -->
+    <header class="fixed w-full top-0 z-50 glass-panel border-b border-slate-200" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/index.html" class="flex items-center gap-2 font-extrabold text-xl tracking-tight text-slate-900">
+                    <i data-lucide="shield" class="h-6 w-6 text-brand-600"></i>
+                    Kuro Suite
+                </a>
+                <nav class="flex space-x-6">
+                    <a href="/index.html" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1">
+                        <i data-lucide="arrow-left" class="h-4 w-4"></i> Retour à l'accueil
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="flex-grow pt-28 pb-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl p-8 sm:p-12 border border-slate-200 shadow-sm">
+                
+                <div class="border-b border-slate-200 pb-8 mb-8">
+                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-xs font-semibold text-slate-700 mb-4 border border-slate-200">
+                        Contrat Commercial B2B
+                    </div>
+                    <h1 class="text-3xl font-extrabold text-slate-900 sm:text-4xl tracking-tight">Conditions Générales de Vente (CGV)</h1>
+                    <p class="mt-2 text-sm text-slate-500">Dernière mise à jour : 1er Octobre 2026</p>
+                </div>
+
+                <div class="space-y-8 text-slate-600 leading-relaxed text-sm sm:text-base">
+                    
+                    <section class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="file-text" class="h-5 w-5 text-brand-600"></i> Article 1 : Champ d'application
+                        </h2>
+                        <p>
+                            Les présentes Conditions Générales de Vente s'appliquent à toutes les offres de services et licences logicielles proposées par Kuro Suite via la plateforme <strong class="text-slate-900">aeorost.org</strong> à destination exclusive de professionnels (entreprises, intégrateurs IT, MSP).
+                        </p>
+                    </section>
+
+                    <section class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="key" class="h-5 w-5 text-brand-600"></i> Article 2 : Commandes et Licences
+                        </h2>
+                        <p>
+                            L'accès aux logiciels de la suite s'effectue par le biais de clés de licence activées sur l'infrastructure du client. Toute souscription entraîne l'adhésion sans réserve aux présentes CGV.
+                        </p>
+                    </section>
+
+                    <section class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="credit-card" class="h-5 w-5 text-brand-600"></i> Article 3 : Tarifs et Modalités de Paiement
+                        </h2>
+                        <p>
+                            Les prix sont indiqués en Euros / Dollars et hors taxes (HT). Le règlement des abonnements ou des redevances s'effectue par carte bancaire ou prélèvement via notre partenaire de paiement sécurisé <strong class="text-slate-900">Stripe</strong>.
+                        </p>
+                    </section>
+
+                    <section class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="users" class="h-5 w-5 text-brand-600"></i> Article 4 : Programme Partenaire MSP et Commissions
+                        </h2>
+                        <p>
+                            Dans le cadre du programme MSP, une commission de 15 % est reversée aux partenaires éligibles selon les modalités définies dans leur espace de gestion (<strong class="text-slate-900">console.aeorost.org</strong>), sous réserve de validation des transactions par notre passerelle de paiement.
+                        </p>
+                    </section>
+
+                    <section class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="alert-triangle" class="h-5 w-5 text-brand-600"></i> Article 5 : Responsabilité
+                        </h2>
+                        <p>
+                            Kuro Suite fournit des outils logiciels auto-hébergés. L'éditeur ne saurait être tenu responsable des pannes d'infrastructure, des pertes de données sur les serveurs autonomes gérés par les clients ou les MSP, ni des interruptions de services tiers.
+                        </p>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-400">
+            <p>&copy; 2026 Kuro Suite. Tous droits réservés.</p>
+            <div class="flex space-x-6">
+                <a href="/mentions-legales.html" class="hover:text-white">Mentions Légales</a>
+                <a href="/confidentialite.html" class="hover:text-white">Confidentialité</a>
+                <a href="/cgv.html" class="text-slate-300 font-semibold hover:text-white">CGV B2B</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
