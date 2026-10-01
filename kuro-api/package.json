@@ -1,0 +1,16 @@
+{
+  "name": "kuro-api",
+  "version": "1.0.0",
+  "description": "Backend API de Validation Kuro Suite & Affiliation MSP",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "seed": "node src/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7",
+    "dotenv": "^16.4.5",
+    "cors": "^2.8.5"
+  }
+}
