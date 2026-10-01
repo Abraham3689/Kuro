@@ -121,6 +121,14 @@ services:
       - MM_SQLSETTINGS_DRIVERNAME=postgres
       - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mmuser_password@kuro-chat-db:5432/mattermost?sslmode=disable&connect_timeout=10
       - MM_SERVICESETTINGS_SITEURL=http://chat.kuro.local
+      - MM_GITLABSETTINGS_ENABLE=true
+      - MM_GITLABSETTINGS_ID=H0sTfs1FQKVxALFEUQ6qwWnCdITr3rSkRyLqK6rRhcXkGH072RETDn08bZ1q9Hb7
+      - MM_GITLABSETTINGS_SECRET=JsYwsHuPTMmGTGwA2zNdulcr5v4xppanYM8OTN9UbI47CQ0ivrr9M5y0lNULS9Sz
+      - MM_GITLABSETTINGS_SCOPE=read_user
+      - MM_GITLABSETTINGS_AUTHENDPOINT=http://kuro-drive/apps/oauth2/authorize
+      - MM_GITLABSETTINGS_TOKENENDPOINT=http://kuro-drive/apps/oauth2/api/v1/token
+      - MM_GITLABSETTINGS_USERAPIENDPOINT=http://kuro-drive/ocs/v2.php/cloud/user?format=json
+      - MM_GITLABSETTINGS_BUTTONTEXT=Se connecter avec Kuro Drive
     volumes:
       - chat_data:/mattermost/data
     networks:
