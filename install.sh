@@ -195,8 +195,11 @@ EOF
 
 echo -e "${GREEN}✓ Caddyfile mis à jour pour le domaine ${KURO_DOMAIN}.${NC}"
 
+echo -e "${YELLOW}Téléchargement de la dernière version de docker-compose.prod.yml...${NC}"
+curl -sSL https://raw.githubusercontent.com/Abraham3689/Kuro/main/docker-compose.prod.yml -o docker-compose.prod.yml
+
 echo -e "${YELLOW}Démarrage de la stack Docker Kuro Suite (Profil Core)...${NC}"
-docker compose --profile core -f docker-compose.prod.yml up -d
+sudo docker compose --profile core -f docker-compose.prod.yml --env-file .env up -d
 
 # ------------------------------------------------------------------------------
 # ÉTAPE 5 : BILAN D'INSTALLATION
