@@ -13,7 +13,7 @@ drive.kuro.local {
 
 chat.kuro.local {
   tls internal
-  reverse_proxy kuro-chat:8065
+  reverse_proxy kuro-drive:80
 }
 
 mail.kuro.local {
@@ -72,7 +72,7 @@ drive.kurosuite.fr {
 }
 
 chat.kurosuite.fr {
-  reverse_proxy kuro-chat:8065
+  reverse_proxy kuro-drive:80
 }
 
 meet.kurosuite.fr {
