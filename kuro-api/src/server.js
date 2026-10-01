@@ -7,7 +7,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const ADMIN_API_KEY = process.env.ADMIN_API_KEY || 'kuro_admin_secret_2026';
 
+const stripeRoutes = require('./routes/stripe');
+
 app.use(cors());
+app.use('/api/stripe', stripeRoutes);
 app.use(express.json());
 
 // Healthcheck

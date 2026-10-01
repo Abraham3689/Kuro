@@ -25,6 +25,7 @@ db.serialize(() => {
       msp_id TEXT UNIQUE NOT NULL,
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
+      stripe_account_id TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
