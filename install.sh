@@ -72,6 +72,7 @@ echo -e "\n${BLUE}[2/5] Configuration des identifiants et domaine...${NC}"
 read -rp "$(echo -e "${CYAN}Entrez votre Clé de licence client (KURO_LICENSE_KEY) : ${NC}")" KURO_LICENSE_KEY
 while [ -z "$KURO_LICENSE_KEY" ]; do
     echo -e "${RED}La clé de licence est obligatoire.${NC}"
+ while [ -z "$KURO_LICENSE_KEY" ]; do
     read -rp "$(echo -e "${CYAN}Entrez votre Clé de licence client (KURO_LICENSE_KEY) : ${NC}")" KURO_LICENSE_KEY
 done
 
