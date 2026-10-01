@@ -62,6 +62,11 @@ if ! docker compose version &> /dev/null; then
     fi
 fi
 
+# ------------------------------------------------------------------------------
+# ÉTAPE 2 : SAISIE DES CLÉS KURO & AFFILIATION
+# ------------------------------------------------------------------------------
+echo -e "\n${BLUE}[2/5] Saisie des informations de la licence et du partenaire MSP...${NC}"
+
 # Saisie de la clé de licence
 while [ -z "$KURO_LICENSE_KEY" ]; do
     read -rp "$(echo -e "${CYAN}Entrez votre Clé de licence client (KURO_LICENSE_KEY) : ${NC}")" KURO_LICENSE_KEY
@@ -87,8 +92,10 @@ done
 # Saisie de l'Email Admin
 read -rp "$(echo -e "${CYAN}Entrez l'adresse Email d'administration SSL Let's Encrypt : ${NC}")" ADMIN_EMAIL
 if [ -z "$ADMIN_EMAIL" ]; then
-    ADMIN_EMAIL="admin@$KURO_DOMAIN"
+    ADMIN_EMAIL="admin@${KURO_DOMAIN}"
 fi
+
+# ------------------------------------------------------------------------------
 # ÉTAPE 3 : VALIDATION API & CONFIGURATION R2
 # ------------------------------------------------------------------------------
 echo -e "\n${BLUE}[3/5] Validation API Kuro Suite & provisionnement R2...${NC}"
@@ -97,12 +104,16 @@ API_URL="${KURO_API_URL:-https://api.kurosuite.com}"
 echo -e "${YELLOW}Connexion à l'API ${API_URL}/api/v1/license/validate...${NC}"
 
 # Tentative de validation via API distant (avec fallback sécurisé si hors ligne / dev)
-HTTP_CODE=$(curl -s -o /tmp/kuro_license_resp.json -w "%{http_code}" \
+HTTP_CODE="000"
+if curl -s -o /tmp/kuro_license_resp.json -w "%{http_code}" \
     -X POST "${API_URL}/api/v1/license/validate" \
     -H "Content-Type: application/json" \
-    -d "{\"license_key\":\"${KURO_LICENSE_KEY}\",\"msp_id\":\"${MSP_ID}\",\"domain\":\"${KURO_DOMAIN}\"}" || echo "000")
+    -d "{\"license_key\":\"${KURO_LICENSE_KEY}\",\"msp_id\":\"${MSP_ID}\",\"domain\":\"${KURO_DOMAIN}\"}" \
+    --max-time 10 > /tmp/kuro_http_code.txt 2>/dev/null; then
+    HTTP_CODE=$(cat /tmp/kuro_http_code.txt 2>/dev/null || echo "000")
+fi
 
-if [ "$HTTP_CODE" -eq 200 ] && [ -f /tmp/kuro_license_resp.json ]; then
+if [ "$HTTP_CODE" = "200" ] && [ -f /tmp/kuro_license_resp.json ]; then
     echo -e "${GREEN}✓ Licence Kuro Suite validée avec succès via l'API !${NC}"
     B2_BUCKET_NAME=$(grep -o '"bucket_name":"[^"]*' /tmp/kuro_license_resp.json | grep -o '[^"]*$' || echo "kuro")
     B2_REGION=$(grep -o '"region":"[^"]*' /tmp/kuro_license_resp.json | grep -o '[^"]*$' || echo "auto")
