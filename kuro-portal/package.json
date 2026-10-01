@@ -1,0 +1,14 @@
+{
+  "name": "kuro-portal",
+  "version": "1.0.0",
+  "description": "Portail d'Affiliation & Gestion de Licences MSP pour Kuro Suite",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5"
+  }
+}
