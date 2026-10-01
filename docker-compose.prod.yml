@@ -119,6 +119,10 @@ services:
     image: frooodle/s-pdf:latest
     container_name: kuro-pdf
     restart: always
+    environment:
+      - APP_NAME=Kuro PDF
+      - CUSTOM_APP_NAME=Kuro PDF
+      - HOME_HEADER=Kuro PDF - Gestion & Édition de Documents
     networks:
       - kuro-network
     profiles: ["core", "pro"]
